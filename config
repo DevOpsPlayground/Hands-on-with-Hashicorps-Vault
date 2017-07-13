@@ -1,0 +1,5 @@
+vault {
+  address = "http://127.0.0.1:8200"
+  token   = "0562015b-831d-16ce-d61c-fbfd9b6c4b37" // May also be specified via the envvar VAULT_TOKEN
+  renew   = false
+}
