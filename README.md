@@ -24,6 +24,8 @@ vault read -field=url secret/application
 
 ## Step 2 - inject our first secret with EnvConsul
 
+vault write secret/database/credentials/root password=root
+
 vim config
   vault {
     address = "http://127.0.0.1:8200"
@@ -31,4 +33,48 @@ vim config
     renew   = false
   }
 
-envconsul -config="config" -secret="secret/application" python app.py
+envconsul -config="config" -secret="secret/database/credentials/root" python web.py
+
+## Step 3 retrieve Env var from the code 
+copy paste
+
+def getEnvVar():
+    global vault_addr
+    global vault_token
+    vault_token = str(os.environ['VAULT_TOKEN'])
+    vault_addr = str(os.environ['VAULT_ADDR'])
+    print vault_addr," --- ", vault_token
+    print "\n"
+    return vault_addr, vault_token
+
+## Step 4 Store Credentials on vault
+vault write secret/database host=localhost db=playground user=root
+
+def getDBCredsFromVault(vault_addr, vault_token):
+    headers = '{X-Vault-Token:', vault_token,'}'
+    Resp = requests.get(vault_addr + "/v1/secret/database", headers = {"X-Vault-Token": vault_token})
+    # 200 = OK, other = NOK
+    if(Resp.ok):
+        secret = json.loads(Resp.content)
+        # print secret
+        print "host : ", secret["data"]["host"]
+        host = secret["data"]["host"]
+        print "database : ", secret["data"]["db"]
+        db = secret["data"]["db"]
+        print "user : ", secret["data"]["user"]
+        user = secret["data"]["user"]
+        print "password : ", secret["data"]["passwd"]
+        passwd = secret["data"]["passwd"]
+        print "\n"
+    else:
+        Resp.raise_for_status()
+    return host, db, user, passwd
+
+
+envconsul -config="config" -secret="secret/database/credentials/root" python web.py
+
+
+## Step 5 
+
+
+
