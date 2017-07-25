@@ -13,11 +13,17 @@ The application is a simple python script that populates a mysql table with data
 
 
 
-## Step 0 - Setting up Vault Server
-vault server -dev
-export VAULT_ADD=http://127.0.0.1:8200
-copy root token
-export VAULT_TOKEN= <token>
+## Step 0 -  Complete the setup 
+
+### Configure database 
+
+
+### Setting up Vault Server
+`vault server -dev`
+
+`export VAULT_ADD=http://127.0.0.1:8200`
+
+`export VAULT_TOKEN= <token>`
 
 
 ## Step 1 - our first secret
