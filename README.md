@@ -18,9 +18,9 @@ export VAULT_TOKEN= <token>
 
 
 ## Step 1 - our first secret
-vault write secret/application url= ecs-digital.co.uk
-vault read  secret/application
-vault read -field=url secret/application
+`vault write secret/application url= ecs-digital.co.uk`
+`vault read  secret/application`
+`vault read -field=url secret/application`
 
 ## Step 2 - inject our first secret with EnvConsul
 
