@@ -2,6 +2,12 @@ import os, MySQLdb, requests, json
 
 
 mysql = ""
+vault_addr = ""
+vault_token = ""
+host = ""
+db = ""
+user = ""
+passwd = ""
 
 def populateDB():
     #connect to the db existing on the machine
@@ -24,6 +30,6 @@ def getRandomFruit():
     fruit = cur.fetchall()
     print fruit[0][0]
 
-#### main
+#### Main
 populateDB()
 getRandomFruit()

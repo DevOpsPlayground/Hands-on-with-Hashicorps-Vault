@@ -2,6 +2,13 @@ import os, MySQLdb, requests, json
 
 
 mysql = ""
+vault_addr = ""
+vault_token = ""
+host = ""
+db = ""
+user = ""
+passwd = ""
+
 def getEnvVar():
     global vault_addr
     global vault_token
