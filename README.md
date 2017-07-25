@@ -26,19 +26,19 @@ vault read -field=url secret/application
 
 vault write secret/database/credentials/root password=root
 
-vim config
-  vault {
+`vim config` :
+  ```vault {
     address = "http://127.0.0.1:8200"
     token   = "<ROOT TOKEN>" // May also be specified via the envvar VAULT_TOKEN
     renew   = false
-  }
+  }```
 
 envconsul -config="config" -secret="secret/database/credentials/root" python web.py
 
 ## Step 3 retrieve Env var from the code 
 copy paste
 
-def getEnvVar():
+```def getEnvVar():
     global vault_addr
     global vault_token
     vault_token = str(os.environ['VAULT_TOKEN'])
@@ -46,11 +46,12 @@ def getEnvVar():
     print vault_addr," --- ", vault_token
     print "\n"
     return vault_addr, vault_token
+```
 
 ## Step 4 Store Credentials on vault
 vault write secret/database host=localhost db=playground user=root
 
-def getDBCredsFromVault(vault_addr, vault_token):
+```def getDBCredsFromVault(vault_addr, vault_token):
     headers = '{X-Vault-Token:', vault_token,'}'
     Resp = requests.get(vault_addr + "/v1/secret/database", headers = {"X-Vault-Token": vault_token})
     # 200 = OK, other = NOK
@@ -69,9 +70,9 @@ def getDBCredsFromVault(vault_addr, vault_token):
     else:
         Resp.raise_for_status()
     return host, db, user, passwd
+```
 
-
-envconsul -config="config" -secret="secret/database/credentials/root" python web.py
+`envconsul -config="config" -secret="secret/database/credentials/root" python web.py`
 
 
 ## Step 5 
