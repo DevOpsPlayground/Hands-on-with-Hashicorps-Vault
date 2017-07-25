@@ -1,19 +1,16 @@
 # devopsplayground13-vault
 All the content needed for the DevOps Playground Meetup on Vault (13) will be worked on here.
 
-## Pre requirements
+## Infrastructure 
 
-`sudo apt-get install mysql mysql-server`
+The AWS instances provided are simple ubuntu machines, a few things hace been done on them: 
+1. MySQL
+2. The Vault binary is in the PATH
+3. The Envconsul binaryu is the PATH
 
-`mysqladmin -u root password 'root'`
+## Application Architecture 
+The application is a simple python script that populates a mysql table with data from a text file and read one out, at random.
 
-`mysql secure_installation`
-
-`mysql > create database Playground;`
-
-`mysql > use Playground`
-
-`mysql > create table main (id Varchar(120));`
 
 
 ## Step 0 - Setting up Vault Server
