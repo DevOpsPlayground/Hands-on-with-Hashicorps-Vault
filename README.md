@@ -35,7 +35,7 @@ vault {
 }
 ```
 
-'envconsul -config="config" -secret="secret/database/credentials/root" python web.py'
+`envconsul -config="config" -secret="secret/database/credentials/root" python web.py`
 
 ## Step 3 retrieve Env var from the code 
 copy paste
