@@ -1,14 +1,20 @@
 # devopsplayground13-vault
 All the content needed for the DevOps Playground Meetup on Vault (13) will be worked on here.
 
-## done on the box
-sudo apt-get install mysql mysql-server
-mysqladmin -u root password 'root'
-mysql secure_installation
-mysql > create database Playground;
-mysql > use Playground
-mysql > create table main (id Varchar(120));
-insert some data into this id row
+## Pre requirements
+
+`sudo apt-get install mysql mysql-server`
+
+`mysqladmin -u root password 'root'`
+
+`mysql secure_installation`
+
+`mysql > create database Playground;`
+
+`mysql > use Playground`
+
+`mysql > create table main (id Varchar(120));`
+
 
 ## Step 0 - Setting up Vault Server
 vault server -dev
