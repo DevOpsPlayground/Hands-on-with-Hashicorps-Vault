@@ -32,9 +32,10 @@ vault {
     address = "http://127.0.0.1:8200"
     token   = "<ROOT TOKEN>" // May also be specified via the envvar VAULT_TOKEN
     renew   = false
-}```
+}
+```
 
-envconsul -config="config" -secret="secret/database/credentials/root" python web.py
+'envconsul -config="config" -secret="secret/database/credentials/root" python web.py'
 
 ## Step 3 retrieve Env var from the code 
 copy paste
