@@ -1,6 +1,5 @@
 import os, MySQLdb, requests, json
-from flask import Flask
-app = Flask(__name__)
+
 
 mysql = ""
 def getEnvVar():
@@ -47,30 +46,17 @@ def getDBCredsFromVault(vault_addr, vault_token):
         Resp.raise_for_status()
     return host, db, user, passwd
 
-
-def readDB(host, db, user, passwd):
-    #connect to the db existing on the machine
-    #db = MySQLdb.connect(host="localhost", user="root", passwd="root",  db="Playground")
+def getRandomFruit(host, db, user, passwd):
     global mysql
-    mysql = MySQLdb.connect(host=host, user=user, passwd=passwd,  db=db)
+    mysql = MySQLdb.connect(host=host, user=user, passwd=passwd,  db="Playground")
     cur = mysql.cursor()
-    # Read all from main tables
-
-    cur.execute("SELECT * from main")
-    results = cur.fetchall()
-    print results
-    # for row in results:
-    #     print row[0]
-    mysql.close()
-
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+    cur.execute("SELECT * FROM main ORDER BY RAND() LIMIT 1")
+    fruit = cur.fetchall()
+    print fruit[0][0]
 
 
 #### main
 vault_addr, vault_token = getEnvVar()
 host, db, user, passwd = getDBCredsFromVault(vault_addr, vault_token)
 populateDB(host, db, user, passwd)
-readDB(host, db, user, passwd)
-hello_world()
+getRandomFruit(host, db, user, passwd)
