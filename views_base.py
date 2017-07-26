@@ -35,5 +35,8 @@ def getRandomFruit():
 
 
 #### Main
+# getEnvVar()
+# getVarFromEnvconsul()
+# getDBCredsFromVault()
 populateDB()
 getRandomFruit()

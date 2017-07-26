@@ -119,6 +119,7 @@ def getEnvVar():
     vault_token = str(os.environ['VAULT_TOKEN'])
     vault_addr = str(os.environ['VAULT_ADDR'])
 
+    print "---FROM ENV---"
     print "VAULT ADDR :", vault_addr
     print "VAULT TOKEN :", vault_token
     print "\n"
@@ -158,6 +159,27 @@ Let's go ahead and write those key/value pairs under secret/database
 `vault write secret/database host=localhost user=root password=root db=playground`
 
 Confirm the writing has been successful by reading them.
+
+###  3.2 - Modify the code to display the EnvConsul values
+
+Add the following code to the script:
+
+```python
+def getVarFromEnvconsul():
+
+    db = str(os.environ['db'])
+    host = str(os.environ['host'])
+    user = str(os.environ['user'])
+    passwd =str(os.environ['password'])
+
+    print "---FROM ENVCONSUL---"
+    print "DB :", db
+    print "Host :", host
+    print "User :", user
+    print "Password :", passwd
+
+    print "\n"
+```
 
 ### 3.2 - Call EnvConsul to inject it into the sub-shell
 
