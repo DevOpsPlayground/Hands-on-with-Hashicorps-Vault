@@ -214,7 +214,7 @@ Note: we have to authenticate with our token at **each** HTTP requests putting t
 
 This is what an API call to read our secret/website looks like :
 
-`curl -H "X-Vault-Token: <TOKEN>" http://localhost/v1/secret/website`
+`curl -H "X-Vault-Token: $VAULT_TOKEN" -X GET http://localhost:8200/v1/secret/website`
 
 The output is in a JSON format, which contain our secrets.
 
