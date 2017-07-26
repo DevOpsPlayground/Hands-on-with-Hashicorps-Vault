@@ -1,5 +1,7 @@
-vault {
-  address = "" // VAULT_ADDR env var
-  token   = ""
-  renew   = false
+secret {
+     path = "secret/VAULT"
+     no_prefix = true
+}
+vault{
+  renew = false
 }
