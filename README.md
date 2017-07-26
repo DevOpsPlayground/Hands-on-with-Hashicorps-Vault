@@ -129,15 +129,15 @@ def getEnvVar():
 
 Add this code in the .py script.  
 
-The call to the function needs to be added too, at the bottom of the file.  
-`vault_addr, vault_token = getEnvVar()`
+The call to the function needs to be uncommented at the bottom of the file.  
+`getEnvVar()`
 
 ### 2.3 -  Run the application again
 The output of the application should now include the values of both `VAULT_ADDR` and ` VAULT_TOKEN`
 
 Since we haven't touched the database details the random fruit is still displayed.
 
-`python base.py`
+`python view_base.py`
 
 ### 2.4 - Summary - Secret as environment variables
 
@@ -197,7 +197,7 @@ vault{
 
 ```
 
-`envconsul -config="./config" python web.py`
+`envconsul -config="./config" python view_base.py`
 
 
 ### 3.3 - Summary - Envconsul
@@ -264,7 +264,7 @@ def getDBCredsFromVault():
         Resp.raise_for_status()
 ```
 
-`envconsul -config="config" -secret="secret/database" python base.py`
+`envconsul -config="./config" python view_base.py`
 
 
 # Reading Material
