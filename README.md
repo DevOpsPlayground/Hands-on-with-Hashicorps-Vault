@@ -53,8 +53,8 @@ To start Vault as DEV simply use the command below:
 `vault server -dev &`
 
 As we will use them later, let's get the token and the address from the logs and store it in an env variable:  
-`export VAULT_TOKEN= <token>`
-`export VAULT_ADDR= <addr>``
+`export VAULT_TOKEN= <token>`  
+`export VAULT_ADDR= <addr>`
 
 ##  1 - Intro to vault
 
