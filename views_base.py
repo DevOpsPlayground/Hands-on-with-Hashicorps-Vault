@@ -12,7 +12,7 @@ passwd = ""
 def populateDB():
     #connect to the db existing on the machine
     global mysql
-    mysql = MySQLdb.connect(host="localhost", user="root", passwd="root",  db="Playground")
+    mysql = MySQLdb.connect(host="localhost", user="root", passwd="root",  db="playground")
     cur = mysql.cursor()
     # Read all from fruits tables
     f=open('list.txt','r')
@@ -24,7 +24,7 @@ def populateDB():
 
 def getRandomFruit():
     global mysql
-    mysql = MySQLdb.connect(host="localhost", user="root", passwd="root",  db="Playground")
+    mysql = MySQLdb.connect(host="localhost", user="root", passwd="root",  db="playground")
     cur = mysql.cursor()
     cur.execute("SELECT * FROM fruits ORDER BY RAND() LIMIT 1")
     fruit = cur.fetchall()
