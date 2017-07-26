@@ -1,14 +1,14 @@
 # devopsplayground13-vault
 All the content needed for the DevOps Playground Meetup on Vault (13) will be worked on here.
 
-## Infrastructure
+# Infrastructure
 
 The AWS instances provided are simple ubuntu machines, a few things have been done on them:
 1. MySQL
 2. The Vault binary is in the PATH
 3. The Envconsul binaryu is the PATH
 
-## Application  
+# Application  
 The application is a simple python script that populates a mysql table with data from a text file and read one out, at random.
 It requires knowledge about the database :
 1. host : where it is
@@ -18,14 +18,14 @@ It requires knowledge about the database :
 
 As we start all these values are hardcoded in the mysql function call, in view_base.py
 
-
-## Step 0 -  Complete the setup
+# Work
+## 0 -  Complete the setup
 
 There should be a folder called *devopsplayground13-vault* in the ec2-user's home. Go into it.
 `cd devopsplayground13-vault`
 
 
-### Configure database
+### 0.1 - Configure database
 
 First, for the sake of simplicity, we'll use a SQWL script to create the database and table. The application will then use those.
 
@@ -39,7 +39,7 @@ When prompter fro a password, use **root**
 If no error has arisen, the database should be readuy to use.
 
 
-### Setting up Vault Server
+### 0.2 - Setting up Vault Server
 
 The next step is obviously to set up the Vault server. The Vault binary is already present on the machine, but the server needs to be started.
 
@@ -52,7 +52,7 @@ As we will use them later, let's get the token and the address from the logs and
 `export VAULT_TOKEN= <token>`
 `export VAULT_ADDR= <addr>``
 
-## Step 1 - Intro to vault
+##  1 - Intro to vault
 
 For what we are going to use Vault for, we can assimilate it as an encrypted key/value store, but keep in mind that it can go much further than that.   
 
@@ -65,7 +65,7 @@ A few ways to make a secret available to the application:
 
 We will see all three here.
 
-### Confirm we have installed vault properly
+### 1.1 - Confirm we have installed vault properly
 vault status should indicated that Vault is operational :
 
 `vault status`
@@ -73,7 +73,7 @@ vault status should indicated that Vault is operational :
 you should get something like that :
 
 
-### Write our first secret
+### 1.2 - Write our first secret
 
 Vault stores secrets in secret backend. The generic secret backend endpoint that we will use is */secret*
 
@@ -91,10 +91,10 @@ In this case, you can select the exact field you want to read:
 `vault read -field=url secret/application`
 
 
-## Step 2 - Use environment variable from the application
+## 2 - Use environment variable from the application
 
 
-### Run the application a first time
+### 2.1 - Run the application a first time
 
 `python base.py`  
 
@@ -102,7 +102,7 @@ At the moment the application has all values hardcoded, but it works as expected
 
 The plan is to gradually remove the hardcoded values from the application, and reference variables.
 
-### Get environment variable from the application
+### 2.2 - Get environment variable from the application
 Since we have setup some both `VAULT_ADDR` and ` VAULT_TOKEN` environment variables, our python app should be able to access them.
 
 
@@ -127,29 +127,29 @@ Add this code in the .py script.
 The call to the function needs to be added too, at the bottom of the file.  
 `vault_addr, vault_token = getEnvVar()`
 
-### Run the application again
+### 2.3 -  Run the application again
 The output of the application should now include the values of both `VAULT_ADDR` and ` VAULT_TOKEN`
 
 Since we haven't touched the database details the random fruit is still displayed.
 
 `python base.py`
 
-### Summary - Secret as environment variables
+### 2.4 - Summary - Secret as environment variables
 
-## Step 3 - Have Vault store the VAULT_ADDR, Share it with Envconsul
+## 3 - Have Vault store the VAULT_ADDR, Share it with Envconsul
 
 It is understandable to try to avoid storing secret or application specific variable at the environment level.
 
 Envconsul is another HashiCorp tool made specifically for this purpose. It allows vault secret to be injected in a sub-shell running the application.
 
-### Write VAULT_ADDR as a secret
+### 3.1 - Write VAULT_ADDR as a secret
 
 In this case, EnvConsul will work with secrets, so we need to store our VAULT_ADDR into Vault.  
 `vault write secret/VAULT ADDR=http://localhost:8200`
 
 Confirm the secret has been written by reading it.
 
-### Call EnvConsul to inject it into the sub-shell
+### 3.2 - Call EnvConsul to inject it into the sub-shell
 
 
 `vim config` :
@@ -174,12 +174,12 @@ The behavior of the application should have been the exact same as in Step 2:
 3. If you remove the VAULT_ADDR env var (` unset VAULT_ADDR`) from your host environment. You should still be able to run the above command seamlessly.
 
 
-### Summary - Envconsul
+### 3.3 - Summary - Envconsul
 
 
-## Step 4 Use the API to read secret
+## 4 - Use the API to read secret
 
-### Intro to Vault's API
+### 4.1 - Intro to Vault's API
 Vault has a rich API, allowing us to do almost anything with our secret.
 The API endpoint looks like that `$VAULT_ADDR/v1/secret/...`.
 In our case, all we want will be to read secret.   
@@ -194,7 +194,7 @@ This is what an API call to read our secret/website looks like :
 The output is in a JSON format, which contain our secrets.
 
 
-### Store the Database credentials in Vault
+### 4.2 - Store the Database credentials in Vault
 
 The database needed by the application requires 4 values :
 1. host = localhost
@@ -207,11 +207,11 @@ Let's go ahead and write those key/value pairs under secret/database
 
 Confirm the writing has been successful by reading them.
 
-### Modify the code to call the API and read the credentials
+### 4.3 - Modify the code to call the API and read the credentials
 
 If all the previous steps were successful, then the application should already be able to read VAULT_ADDR and VAULT_TOKEN, and the database connection information should be in Vault ready to be read.
 
-#### Make a call to the Vault API in Python
+#### 4.3.1 - Make a call to the Vault API in Python
 In python, this is how you would make an API call, and passing headersto it:
 ```python
 headers = '{X-Vault-Token:', vault_token,'}'
@@ -221,7 +221,7 @@ Resp = requests.get(vault_addr + "/v1/secret/database", headers = {"X-Vault-Toke
 Here, for simplicity, we have hardcoded the secret's path. More error catching should of course be added to it. see below.
 
 
-#### Write the function to get the database credentials
+#### 4.3.2 - Write the function to get the database credentials
 
 The function below is making an PAI call to VAULT using the token and addr we already have, to read the database information we stored on Vault. Then we simply check the HTTP return code, to confirm the success of the request. Finally, we display and store the credentials.
 
