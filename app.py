@@ -30,6 +30,7 @@ def getRandomFruit():
     cur = mysql.cursor()
     cur.execute("SELECT * FROM fruits ORDER BY RAND() LIMIT 1")
     fruit = cur.fetchall()
+    print "---RANDOM FRUIT FROM DB----"
     print fruit[0][0]
 
 
