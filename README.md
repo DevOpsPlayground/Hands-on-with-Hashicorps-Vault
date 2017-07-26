@@ -1,4 +1,4 @@
-# devopsplayground13-vault
+# DevOps Playground #13 - HashiCorp's Vault
 All the content needed for the DevOps Playground Meetup on Vault (13) will be worked on here.
 
 # Infrastructure
