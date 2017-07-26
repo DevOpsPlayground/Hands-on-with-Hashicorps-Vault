@@ -52,7 +52,7 @@ The next step is to set up the Vault server. The Vault binary is already present
 
 Since we are not running a production-grade environment, we will use Vault in its DEV mode, making our life simpler.
 
-To start Vault as DEV simply use the command below:   
+To start Vault as DEV simply use the command below:   ˜
 `vault server -dev &`
 
 As we will use them later, let's get the token and the address from the logs and store it in an env variable:  
@@ -81,7 +81,7 @@ vault status should indicated that Vault is operational :
 
 you should get something like that :
 
-
+˜˜ 
 ### 1.2 - Write our first secret
 
 Vault stores secrets in a secret backend. The generic secret backend endpoint that we will use is */secret*
@@ -129,7 +129,6 @@ def getEnvVar():
     print "VAULT TOKEN :", vault_token
     print "\n"
 
-    return vault_addr, vault_token
 ```
 
 Add this code in the .py script.  
@@ -264,9 +263,19 @@ def getDBCredsFromVault():
         Resp.raise_for_status()
 ```
 
-Don't forget to uncomment the function call at trhe bootom of the file !
+Don't forget to uncomment the function call at the bottom of the file !
 
 `envconsul -config="./config" python app.py`
 
+### Modify the MySQL call to use the variables
+
+In the functions `populateDB()` and `getRandomFruit()`, let's replace the original mysql calls by :
+
+```python
+mysql = MySQLdb.connect(host=host, user=user, passwd=password,  db=database)
+```
+
+Now the application is operating fully on secret from Vault. let's run the application a final time to confirm:  
+`envconsul -config="./config" python app.py`
 
 # Reading Material

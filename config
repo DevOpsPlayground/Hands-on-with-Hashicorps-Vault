@@ -1,5 +1,5 @@
 secret {
-     path = "secret/VAULT"
+     path = "secret/database"
      no_prefix = true
 }
 vault{
