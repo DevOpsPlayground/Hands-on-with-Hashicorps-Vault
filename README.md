@@ -275,6 +275,14 @@ In the functions `populateDB()` and `getRandomFruit()`, let's replace the origin
 mysql = MySQLdb.connect(host=host, user=user, passwd=password,  db=database)
 ```
 
+You also need to set as global these variables in the functions `getDBCredsFromVault`, `populateDB` and `getRandomFruit` in order to make the environment variables accessible:
+```
+    global host
+    global db
+    global passwd
+    global user
+```
+
 Now the application is operating fully on secret from Vault. let's run the application a final time to confirm:  
 `envconsul -config="./config" python app.py`
 
