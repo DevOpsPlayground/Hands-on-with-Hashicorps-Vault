@@ -239,29 +239,29 @@ Here, for simplicity, we have hardcoded the secret's path. More error catching s
 The function below is making an PAI call to VAULT using the token and addr we already have, to read the database information we stored on Vault. Then we simply check the HTTP return code, to confirm the success of the request. Finally, we display and store the credentials.
 
 ```python
-def getDBCredsFromVault(vault_addr, vault_token):
+
+def getDBCredsFromVault():
+    global vault_addr
+    global vault_token
     headers = '{X-Vault-Token:', vault_token,'}'
     Resp = requests.get(vault_addr + "/v1/secret/database", headers = {"X-Vault-Token": vault_token})
 
     # 200 = OK, other = NOK
     if(Resp.ok):
         secret = json.loads(Resp.content)
-        # print secret
-        print "host : ", secret["data"]["host"]
+        db = secret["data"]["db"]
+        user = secret["data"]["user"]
+        passwd = secret["data"]["password"]
         host = secret["data"]["host"]
 
+        print "--- FROM VAULT API---"
         print "database : ", secret["data"]["db"]
-        db = secret["data"]["db"]
-
         print "user : ", secret["data"]["user"]
-        user = secret["data"]["user"]
-
-        print "password : ", secret["data"]["passwd"]
-        passwd = secret["data"]["passwd"]
+        print "host : ", secret["data"]["host"]
+        print "password : ", secret["data"]["password"]
         print "\n"
     else:
         Resp.raise_for_status()
-    return host, db, user, passwd
 ```
 
 `envconsul -config="config" -secret="secret/database" python base.py`
